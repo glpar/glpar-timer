@@ -16,7 +16,17 @@ interface CycleState{
 
 }
 
-export function cycleReducer(state: CycleState, action: any) {
+type CycleAction =
+    | {
+        type: ActionTypes.Add_New_Cycle
+        payload: {
+            newCycle: Cycle
+        }
+    }
+    | { type: ActionTypes.Interrupt_Current_Cycle }
+    | { type: ActionTypes.Mark_Current_Cycle_As_Finished }
+
+export function cycleReducer(state: CycleState, action: CycleAction) {
 
     switch (action.type) {
         case ActionTypes.Add_New_Cycle:

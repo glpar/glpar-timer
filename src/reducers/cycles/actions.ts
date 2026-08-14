@@ -12,17 +12,17 @@ export function AddNewCycleAction(newCycle: Cycle) {
             payload: {
                 newCycle,
             }
-    }
+    } as const
 }
 
 export function MarkCurrentCycleAsFinishedAction() {
     return {
         type: ActionTypes.Mark_Current_Cycle_As_Finished,
-    }
+    } as const
 }
 
 export function interruptCurrentCycleAction() {
     return{
         type: ActionTypes.Interrupt_Current_Cycle,
-    }
+    } as const
 }
