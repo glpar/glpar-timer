@@ -25,6 +25,12 @@ export const HomeContainer = styled.main`
 
 `
 
+export const FormError = styled.p`
+    color: ${(props) => props.theme['red-500']};
+    font-size: 0.875rem;
+    text-align: center;
+`
+
 export const BaseCountdownButton = styled.button`
     width: 100%;
     border: 0;

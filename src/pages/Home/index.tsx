@@ -7,6 +7,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import { 
 
     HomeContainer, 
+    FormError,
     StartCountdownButton, 
     StopCountdownButton, 
 } from "./styles";
@@ -16,7 +17,7 @@ import { CyclesContext } from "../../contexts/CyclesContext";
 
 const newCycleFormValidationSchema = zod.object({
     task: zod.string().min(1, 'Informe a tarefa'),
-    minutesAmount: zod.number().min(1, "O ciclo precisa ser de no mínimo 5 minutos.").max(60, "O ciclo precisa ser de no máximo 60 minutos."),
+    minutesAmount: zod.number().min(5, "O ciclo precisa ser de no mínimo 5 minutos.").max(60, "O ciclo precisa ser de no máximo 60 minutos."),
 })
 
 type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
@@ -32,7 +33,7 @@ export function Home(){
         }
     });
 
-    const {handleSubmit, watch, reset} = newCycleForm
+    const {handleSubmit, watch, reset, formState: { errors }} = newCycleForm
 
     function handleCreateNewCycle(data: NewCycleFormData) {
         createNewCycle(data);
@@ -40,7 +41,8 @@ export function Home(){
     }
 
     const task = watch('task');
-    const isSubmitDisabled = !task;
+    const minutesAmount = watch('minutesAmount');
+    const isSubmitDisabled = !task?.trim() || minutesAmount < 5 || minutesAmount > 60;
 
     return (
     <HomeContainer>
@@ -48,6 +50,11 @@ export function Home(){
                 <FormProvider {...newCycleForm}>
                     <NewCycleForm/>
                 </FormProvider>
+                {(errors.task || errors.minutesAmount) && (
+                    <FormError role="alert">
+                        {errors.task?.message || errors.minutesAmount?.message}
+                    </FormError>
+                )}
                 <Countdown />
 
         {activeCycle ? (
