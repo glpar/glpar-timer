@@ -15,6 +15,14 @@ export const HomeContainer = styled.main`
         gap: 3.5rem;
     }
 
+    @media (max-height: 650px) {
+        padding: 1rem 0;
+
+        form {
+            gap: 1.5rem;
+        }
+    }
+
 `
 
 export const BaseCountdownButton = styled.button`
